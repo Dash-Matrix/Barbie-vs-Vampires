@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cam : MonoBehaviour
+public class MyCamera : MonoBehaviour
 {
 
     public float Yaxis;
@@ -24,7 +24,25 @@ public class Cam : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (GameManager.gameEnded)
+        {
+            this.enabled = false;
+            return;
+        }
 
+
+
+        if (enableMobileInputs)
+        {
+            Yaxis += touchField.TouchDist.x * RotationSensitivity;
+            Xaxis -= touchField.TouchDist.y * RotationSensitivity;
+        }
+        else
+        {
+            Yaxis += Input.GetAxis("Mouse X") * RotationSensitivity;
+            Xaxis -= Input.GetAxis("Mouse Y") * RotationSensitivity;
+        }
+        Xaxis = Mathf.Clamp(Xaxis, RotationMin, RotationMax);
 
 
 
